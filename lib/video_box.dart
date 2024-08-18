@@ -184,7 +184,7 @@ class _VideoBoxState extends State<VideoBox> with TickerProviderStateMixin {
     controller.theme ??= _theme.copyWith(
       iconTheme: IconThemeData(color: Colors.white),
       textTheme: _theme.textTheme.copyWith(
-        bodyText1: _theme.textTheme.bodyText1!.copyWith(color: Colors.white),
+        bodyMedium: _theme.textTheme.bodyMedium!.copyWith(color: Colors.white),
       ),
       sliderTheme: _theme.sliderTheme.copyWith(
         trackHeight: 2,
@@ -370,7 +370,7 @@ class _VideoBottomViewState extends State<KBottomViewBuilder> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text(_timeText, style: theme.textTheme.bodyText1),
+                  Text(_timeText, style: theme.textTheme.bodyMedium),
                   Spacer(),
                   IconButton(
                     icon: Icon(_volumeIcon),
