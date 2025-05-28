@@ -97,7 +97,7 @@ abstract class _VideoController extends BaseVideoController
     // 初始化所有需要的流
 
     _streamSubscriptions$ ??=
-        accelerometerEvents.listen(_streamSubscriptionsCallback);
+        accelerometerEventStream().listen(_streamSubscriptionsCallback);
     _connectivityChanged$ ??= Connectivity()
         .onConnectivityChanged
         .listen(_connectivityChangedCallBack);
@@ -114,15 +114,15 @@ abstract class _VideoController extends BaseVideoController
 
   /// 监听网络连接
   ConnectivityResult? _connectivityStatus;
-  StreamSubscription<ConnectivityResult>? _connectivityChanged$;
-  void _connectivityChangedCallBack(ConnectivityResult result) {
+  StreamSubscription<List<ConnectivityResult>>? _connectivityChanged$;
+  void _connectivityChangedCallBack(List<ConnectivityResult> result) {
     // printf('NetworkChange(%o)', result);
 
     if (connectivityChangedListenner != null)
-      connectivityChangedListenner!(this as VideoController, result);
+      connectivityChangedListenner!(this as VideoController, result.first);
 
     bool isReconnection = _connectivityStatus == ConnectivityResult.none &&
-        result != ConnectivityResult.none &&
+        result.first != ConnectivityResult.none &&
         isBfLoading &&
         _value.buffered.isEmpty;
     if (isReconnection) {
@@ -131,7 +131,7 @@ abstract class _VideoController extends BaseVideoController
       initialize(true);
     }
 
-    _connectivityStatus = result;
+    _connectivityStatus = result.first;
   }
 
   bool get isPlayEnd => (position) >= (duration);
